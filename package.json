@@ -10,7 +10,7 @@
 		"watch-ts": "concurrently \"tsc -w\" \"tsc-alias -w\"",
 		"watch-html": "npx copy-and-watch --watch src/nodes/*.html dist/nodes",
 		"build": "tsc && tsc-alias && npm run copy:resources",
-		"copy:resources": "(cd src; find ./nodes -name '*.html' | cpio -pdm ../dist) && cp package.json dist/ && cp README.md dist/",
+		"copy:resources": "(cd src; find ./nodes -name '*.html' -o -name '*.svg' | cpio -pdm ../dist) && cp package.json dist/ && cp README.md dist/",
 		"launch": "node --env-file=.env --expose-gc --inspect=0.0.0.0:19229 node_modules/node-red/red.js --userDir ./data",
 		"debug": "concurrently -k \"npm run watch\" && \"node --env-file=.env --expose-gc --inspect=0.0.0.0:19229 node_modules/node-red/red.js --userDir ./data \"",
 		"deploy": "npm run build && (cd dist; npm publish)",
@@ -24,7 +24,7 @@
 	"node-red": {
 		"version": ">=3.1.0",
 		"nodes": {
-			"ReadBalance": "nodes/ReadBalance.js"
+			"efriends": "index.js"
 		}
 	},
 	"keywords": [
@@ -35,7 +35,7 @@
 	"author": "Matthias Fuchs",
 	"license": "ISC",
 	"dependencies": {
-		"node-red-ts": "^1.0.5"
+		"node-red-ts": "^1.0.6"
 	},
 	"devDependencies": {
 		"@types/jest": "^26.0.24",

@@ -1,0 +1,78 @@
+<!-- definition  -->
+<script type="text/javascript">
+  RED.nodes.registerType("TradingSummary", {
+    category: "efriends",
+    color: "#ffcd1c",
+    icon: "logo.svg",
+    defaults: {
+      name: { value: "" },
+      updateInterval: { value: 10 },
+      updateIntervalType: { value: "num" },
+      apiKey: { value: "" },
+      apiKeyType: { value: "" },
+      host: { value: "" },
+      hostType: { value: "" },
+    },
+    inputs: 1,
+    outputs: 1,
+    inputLabels: [
+      "trigger",
+    ],
+    outputLabels: [
+      "summary",
+    ],
+    label: function () {
+      return this.name || "Get trading summary"
+    },
+    paletteLabel: "Trading summary",
+    oneditprepare: () => {
+      $("#node-input-updateInterval").typedInput({
+        type: "num",
+        types: ["num", "flow", "global", "env"],
+        typeField: "#node-input-updateIntervalType"
+      })
+      $("#node-input-apiKey").typedInput({
+        type: "str",
+        types: ["str", "flow", "global", "env"],
+        typeField: "#node-input-apiKeyType"
+      })
+      $("#node-input-host").typedInput({
+        type: "str",
+        types: ["str", "flow", "global", "env"],
+        typeField: "#node-input-host"
+      })
+    }
+  });
+</script>
+
+<!-- edit dialog -->
+<script type="text/html" data-template-name="TradingSummary">
+  <!-- name -->
+<div class="form-row">
+  <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+  <input type="text" id="node-input-name" placeholder="Name" />
+</div>
+<div class="form-row">
+  <label for="node-input-updateInterval"><i class="fa fa-repeat"></i> Interval</label>
+  <input type="number" id="node-input-updateInterval" placeholder="" min="0", step="5" /> sec
+  <input type="hidden" id="node-input-updateIntervalType">
+</div>
+<div class="form-row">
+  <label for="node-input-apiKey"><i class="fa fa-hash"></i> API key</label>
+  <input type="text" id="node-input-apiKey" placeholder="" min="0", step="5" placeholder="" />
+  <input type="hidden" id="node-input-apiKeyType">
+</div>
+<div class="form-row">
+  <label for="node-input-host"><i class="fa fa-hash"></i> Host</label>
+  <input type="text" id="node-input-host" placeholder="" placeholder="a000000000000000000000000000000e.balena-devices.com" />
+  <input type="hidden" id="node-input-hostType">
+</div>
+</script>
+
+
+<!-- help text -->
+<script type="text/html" data-help-name="TradingSummary">
+  <p>
+    To disable the automatic update, set an update interval of 0.
+  </p>
+</script>
