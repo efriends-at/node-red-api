@@ -3,7 +3,7 @@ import { BatteryStateData } from '@app/dtos/BatteryStateData';
 import { GridMeterData } from '@app/dtos/GridMeterData';
 import { InverterData } from '@app/dtos/InverterData';
 
-export interface TradingSummaryData {
+export interface GetTradingSummaryResponse {
   aggregatedData: AggregatedData
   cubeName: string
   startTime: string
