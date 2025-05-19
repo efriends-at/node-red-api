@@ -3,7 +3,7 @@
   RED.nodes.registerType("TradingSummary", {
     category: "efriends",
     color: "#ffcd1c",
-    icon: "logo.svg",
+    icon: "logo.png",
     defaults: {
       name: { value: "" },
       updateInterval: { value: 10 },
@@ -39,7 +39,7 @@
       $("#node-input-host").typedInput({
         type: "str",
         types: ["str", "flow", "global", "env"],
-        typeField: "#node-input-host"
+        typeField: "#node-input-hostType"
       })
     }
   });
