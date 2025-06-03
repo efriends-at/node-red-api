@@ -9,11 +9,11 @@
 		"watch": "npm run clean && concurrently -k npm:watch-*",
 		"watch-ts": "concurrently \"tsc -w\" \"tsc-alias -w\"",
 		"watch-html": "npx copy-and-watch --watch src/nodes/*.html dist/nodes",
-		"build": "tsc && tsc-alias && npm run copy:resources",
+		"build": "npm run clean && tsc && tsc-alias && npm run copy:resources",
 		"copy:resources": "(cd src; find ./nodes -name '*.html' -o -name '*.svg' -o -name '*.png' | cpio -pdm ../dist) && cp package.json dist/ && cp README.md dist/",
 		"launch": "node --env-file=.env --expose-gc --inspect=0.0.0.0:19229 node_modules/node-red/red.js --userDir ./data",
 		"debug": "concurrently -k \"npm run watch\" && \"node --env-file=.env --expose-gc --inspect=0.0.0.0:19229 node_modules/node-red/red.js --userDir ./data \"",
-		"deploy": "npm run build && (cd dist; npm publish)",
+		"deploy": "npm run build && (cd dist; npm publish --access public)",
 		"eslint:check": "eslint . --ext .ts",
 		"eslint:check:errors-only": "eslint . --ext .ts --quiet",
 		"eslint:fix": "eslint . --ext .ts --fix"
@@ -25,7 +25,8 @@
 		"version": ">=3.1.0",
 		"nodes": {
 			"TradingSummary": "nodes/TradingSummary.js",
-			"CurrentMeterValues": "nodes/CurrentMeterValues.js"
+			"CurrentMeterValues": "nodes/CurrentMeterValues.js",
+			"EfriendsConfig": "nodes/EfriendsConfig.js"
 		}
 	},
 	"keywords": [

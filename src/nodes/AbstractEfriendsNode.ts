@@ -1,4 +1,6 @@
+import { HttpErrorData } from '@app/dtos/HttpErrorData';
 import {
+	Node,
 	NodeAPI,
 	NodeMessage
 } from 'node-red';
@@ -8,22 +10,27 @@ import { NodeDefinition } from 'node-red-ts/api/NodeDefinition';
 export abstract class AbstractEfriendsNode<T> extends AbstractNode<NodeMessage, { updateInterval: number, apiKey: string, host: string }> {
 	private updateFetcherTimeout?: NodeJS.Timeout;
 
-	protected abstract getApiUrl(): string;
+	protected abstract get apiUrl(): string;
+	protected abstract get topic(): string;
 
 	protected override initProperties(RED: NodeAPI, config: NodeDefinition, msg?: NodeMessage | undefined): void {
 		super.initProperties(RED, config);
 
-		if (this.interval > 0) {
-			this.updateFetcherTimeout = setInterval(() => this.sendUpdate(), this.interval * 1000);
-		} else {
-			clearTimeout(this.updateFetcherTimeout);
+		try {
+			if (this.interval > 0) {
+				this.updateFetcherTimeout = setInterval(() => this.sendUpdate(), this.interval * 1000);
+			} else {
+				clearTimeout(this.updateFetcherTimeout);
+			}
+		} catch (error) {
+			this.log.error(`Could not initialize properties: ${(error as any).message}`);
 		}
 	}
 
 	protected override async onInput(msg?: NodeMessage): Promise<Array<NodeMessage | null>> {
 		const data = await this.fetchUpdate();
 
-		return [{ payload: data }];
+		return [{ payload: data, topic: this.topic }];
 	}
 
 	protected override async onClose(removed: boolean): Promise<void> {
@@ -32,21 +39,31 @@ export abstract class AbstractEfriendsNode<T> extends AbstractNode<NodeMessage, 
 
 	private async sendUpdate(): Promise<void> {
 		const data = await this.fetchUpdate();
+
 		this.node.send({ payload: data });
 	}
+
+	protected get configuration(): Node {
+		return this.RED.nodes.getNode(this.config.config);
+	}
+
 	private get interval(): number {
 		return this.getProperty('updateInterval') ?? 0;
 	}
 
 	protected get apiKey(): string {
-		return this.getProperty('apiKey') ?? '';
+		const config = this.configuration;
+
+		return (config.context().get("apiKey") as string) ?? '';
 	}
 
 	protected get host(): string {
-		return this.getProperty('host') ?? '';
+		const config = this.configuration;
+
+		return (config.context().get("host") as string) ?? '';
 	}
 
-	protected async fetchUpdate(): Promise<T | undefined> {
+	protected async fetchUpdate(): Promise<T | HttpErrorData | undefined> {
 		const headers = new Headers();
 		headers.append('apiKey', this.apiKey);
 
@@ -56,7 +73,7 @@ export abstract class AbstractEfriendsNode<T> extends AbstractNode<NodeMessage, 
 		};
 
 		try {
-			const response = await fetch(this.getApiUrl(), requestOptions);
+			const response = await fetch(this.apiUrl, requestOptions);
 
 			if (response.ok) {
 				const body: T = await response.json();
@@ -64,7 +81,12 @@ export abstract class AbstractEfriendsNode<T> extends AbstractNode<NodeMessage, 
 				return body;
 			}
 		} catch (error) {
-			throw new Error('Could not fetch data: ' + (error instanceof Error ? error.message : String(error)));
+			const errorMessage = error instanceof Error
+				? error.message
+				: String(error);
+
+			return { message: errorMessage } as HttpErrorData;
+			// throw new Error('Could not fetch data: ' + (error instanceof Error ? error.message : String(error)));
 		}
 	}
 }

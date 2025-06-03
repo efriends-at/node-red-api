@@ -1,5 +1,5 @@
 import { GetTradingSummaryResponse } from '@app/dtos/TradingSummaryData';
-import { AbstractEfriendsNode } from '@app/nodes/AbstractApiFetcher';
+import { AbstractEfriendsNode } from '@app/nodes/AbstractEfriendsNode';
 import { NodeAPI } from 'node-red';
 import { AbstractNode } from 'node-red-ts/api/AbstractNode';
 
@@ -8,8 +8,12 @@ export class TradingSummary extends AbstractEfriendsNode<GetTradingSummaryRespon
 		super(RED);
 	}
 
-	protected getApiUrl(): string {
+	protected get apiUrl(): string {
 		return `https://${this.host}/v3/MeterDataAPI/TradingSummary`;
+	}
+
+	protected get topic(): string {
+		return 'efriends.trading.summary';
 	}
 
 }

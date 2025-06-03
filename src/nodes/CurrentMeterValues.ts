@@ -1,5 +1,5 @@
 import { GetCurrentMeterValueResponse } from '@app/dtos/GetCurrentMeterValueResponse';
-import { AbstractEfriendsNode } from '@app/nodes/AbstractApiFetcher';
+import { AbstractEfriendsNode } from '@app/nodes/AbstractEfriendsNode';
 import { NodeAPI } from 'node-red';
 import { AbstractNode } from 'node-red-ts/api/AbstractNode';
 
@@ -8,8 +8,12 @@ export class CurrentMeterValues extends AbstractEfriendsNode<GetCurrentMeterValu
 		super(RED);
 	}
 
-	protected getApiUrl(): string {
+	protected get apiUrl(): string {
 		return `https://${this.host}/v3/MeterDataAPI/getCurrentValue`;
+	}
+
+	protected get topic(): string {
+		return 'efriends.gridmeter.values';
 	}
 
 }

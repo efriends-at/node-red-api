@@ -6,12 +6,9 @@
     icon: "logo.png",
     defaults: {
       name: { value: "" },
-      updateInterval: { value: 10 },
-      updateIntervalType: { value: "num" },
-      apiKey: { value: "" },
-      apiKeyType: { value: "" },
-      host: { value: "" },
-      hostType: { value: "" },
+      updateInterval: { value: 0, required: true },
+      updateIntervalType: { value: "num", required: true },
+      config: { required: true, type: "EfriendsConfig" },
     },
     inputs: 1,
     outputs: 1,
@@ -31,16 +28,6 @@
         types: ["num", "flow", "global", "env"],
         typeField: "#node-input-updateIntervalType"
       })
-      $("#node-input-apiKey").typedInput({
-        type: "str",
-        types: ["str", "flow", "global", "env"],
-        typeField: "#node-input-apiKeyType"
-      })
-      $("#node-input-host").typedInput({
-        type: "str",
-        types: ["str", "flow", "global", "env"],
-        typeField: "#node-input-hostType"
-      })
     }
   });
 </script>
@@ -53,26 +40,36 @@
   <input type="text" id="node-input-name" placeholder="Name" />
 </div>
 <div class="form-row">
-  <label for="node-input-updateInterval"><i class="fa fa-repeat"></i> Interval</label>
-  <input type="number" id="node-input-updateInterval" placeholder="" min="0", step="5" /> sec
+  <label for="node-input-updateInterval"><i class="fa fa-repeat"></i> Interval (sec)</label>
+  <input type="text" id="node-input-updateInterval" placeholder="" min="0", step="5" />
   <input type="hidden" id="node-input-updateIntervalType">
 </div>
 <div class="form-row">
-  <label for="node-input-apiKey"><i class="fa fa-hash"></i> API key</label>
-  <input type="text" id="node-input-apiKey" placeholder="" min="0", step="5" placeholder="" />
-  <input type="hidden" id="node-input-apiKeyType">
-</div>
-<div class="form-row">
-  <label for="node-input-host"><i class="fa fa-hash"></i> Host</label>
-  <input type="text" id="node-input-host" placeholder="" placeholder="a000000000000000000000000000000e.balena-devices.com" />
-  <input type="hidden" id="node-input-hostType">
+  <label for="node-input-config">Config</label>
+  <input type="text" id="node-input-config">
 </div>
 </script>
 
 
 <!-- help text -->
 <script type="text/html" data-help-name="CurrentMeterValues">
+  <p><strong>eFriends current meter values</strong></p>
+  <p>This node fetches current meter values from an eFriends WATCH+ or Cube device using their HTTP API.</p>
+
+  <p><strong>Configuration:</strong></p>
+  <p>Set update <code>interval</code> to 0 to disable polling. The node can then be triggered manually by sending an input message.</p>
   <p>
-    To disable the automatic update, set an update interval of 0.
+    For this to work the node has to be configured with a working configuration for the hostname and api key.
+    <p>The hostname can be aquired <a href="https://app.efriends.at/experts">here</a></p>
+    <p>The API key can be generated <a href="https://app.efriends.at/api-manager">here</a></p>
   </p>
+
+  <p><strong>Returned fields:</strong></p>
+  <ul>
+    <li><code>startTime</code>, <code>endTime</code>, <code>unixTimestamp</code></li>
+    <li><code>energyBalance</code>: > 0 means power is fed into the grid, < 0 means power is consumed from the grid</li>
+    <li><code>power1Watt, power2Watt, power3Watt</code>: power on the individual phases (only if supported by the meter)</li>
+    <li><code>current1Ampere, current2Ampere, current3Ampere</code>: current on the individual phases (only if supported by the meter)</li>
+    <li><code>voltage1Volt, voltage2Volt, voltage3Volt</code>: voltage on the individual phases (only if supported by the meter)</li>
+  </ul>
 </script>

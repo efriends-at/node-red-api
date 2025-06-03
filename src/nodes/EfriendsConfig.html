@@ -1,0 +1,64 @@
+<script type="text/javascript">
+  RED.nodes.registerType("EfriendsConfig", {
+    category: "config",
+    color: "#ffcd1c",
+    icon: "font-awesome/fa-cogs",
+    defaults: {
+      name: { value: "" },
+      apiKey: { value: "", required: true },
+      apiKeyType: { value: "", required: true },
+      host: { value: "", required: true },
+      hostType: { value: "", required: true },
+    },
+    inputs: 0,
+    outputs: 0,
+    label: function () {
+      return this.name || "Configuration";
+    },
+    paletteLabel: "Configuration",
+    oneditprepare: () => {
+      $("#node-config-input-apiKey").typedInput({
+        type: "str",
+        types: ["str", "flow", "global", "env"],
+        typeField: "#node-config-input-apiKeyType"
+      });
+      $("#node-config-input-host").typedInput({
+        type: "str",
+        types: ["str", "flow", "global", "env"],
+        typeField: "#node-config-input-hostType"
+      });
+    }
+  });
+</script>
+
+<!-- edit dialog -->
+<script type="text/html" data-template-name="EfriendsConfig">
+  <div class="form-row">
+    <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-config-input-name" placeholder="Name" />
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-host"><i class="fa fa-hash"></i> Host</label>
+    <input type="text" id="node-config-input-host" placeholder="" placeholder="a000000000000000000000000000000e.balena-devices.com" />
+    <input type="hidden" id="node-config-input-hostType">
+  </div>
+  <!-- <div class="form-tips">
+    <span data-i18n="node-red:file.tip">Tip: <a href="https://app.efriends.at/experts">Get the the hostname</a></span>
+  </div> -->
+
+  <div class="form-row">
+    <label for="node-config-input-apiKey"><i class="fa fa-hash"></i> API key</label>
+    <input type="text" id="node-config-input-apiKey" placeholder="" min="0", step="5" placeholder="" />
+    <input type="hidden" id="node-config-input-apiKeyType">
+  </div>
+</script>
+
+<!-- help text -->
+<script type="text/html" data-help-name="EfriendsConfig">
+  <p><strong>eFriends configuration</strong></p>
+  <p>This node holds the configuration to access the eFriends HTTP API.</p>
+
+  <p><strong>Configuration:</strong></p>
+  <p><code>Host</code> the hostname or IP of you WATCH+ or Cube can be aquired <a href="https://app.efriends.at/experts">here</a></p>
+  <p><code>API key</code> can be generated <a href="https://app.efriends.at/api-manager">here</a></p>
+</script>
