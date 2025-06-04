@@ -7,7 +7,7 @@ import {
 import { AbstractNode } from 'node-red-ts/api/AbstractNode';
 import { NodeDefinition } from 'node-red-ts/api/NodeDefinition';
 
-export abstract class AbstractEfriendsNode<T> extends AbstractNode<NodeMessage, { updateInterval: number, apiKey: string, host: string }> {
+export abstract class AbstractEfriendsNode<T> extends AbstractNode<NodeMessage, { updateInterval: number, apiKey: string, host: string, networkTimeout: number }> {
 	private updateFetcherTimeout?: NodeJS.Timeout;
 
 	protected abstract get apiUrl(): string;
@@ -63,13 +63,22 @@ export abstract class AbstractEfriendsNode<T> extends AbstractNode<NodeMessage, 
 		return (config.context().get("host") as string) ?? '';
 	}
 
+	protected get networkTimeout(): number {
+		const config = this.configuration;
+
+		return (config.context().get("networkTimeout") as number) ?? 5000;
+	}
+
 	protected async fetchUpdate(): Promise<T | HttpErrorData | undefined> {
 		const headers = new Headers();
 		headers.append('apiKey', this.apiKey);
 
-		const requestOptions = {
+		const timeout = AbortSignal.timeout(this.networkTimeout);
+
+		const requestOptions: RequestInit = {
 			method: 'GET',
-			headers: headers
+			headers: headers,
+			signal: timeout
 		};
 
 		try {

@@ -15,7 +15,7 @@
 				"launch"
 			],
 			"preLaunchTask": "npm: build",
-			"attachSimplePort": 19229,
+			"attachSimplePort": 19230,
 			"internalConsoleOptions": "openOnSessionStart",
 			"autoAttachChildProcesses": true,
 			"pauseForSourceMap": true,
@@ -47,7 +47,7 @@
 			"name": "Attach",
 			"request": "attach",
 			"address": "localhost",
-			"port": 19229,
+			"port": 19230,
 			"continueOnAttach": false,
 			"outputCapture": "console",
 			"internalConsoleOptions": "openOnSessionStart",

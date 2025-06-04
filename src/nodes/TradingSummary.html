@@ -8,6 +8,8 @@
       name: { value: "" },
       updateInterval: { value: 0, required: true },
       updateIntervalType: { value: "num", required: true },
+      networkTimeout: { value: 5000, required: true },
+      networkTimeoutType: { value: "num", required: true },
       config: { required: true, type: "EfriendsConfig" },
     },
     inputs: 1,
@@ -27,7 +29,12 @@
         type: "num",
         types: ["num", "flow", "global", "env"],
         typeField: "#node-input-updateIntervalType"
-      })
+      });
+      $("#node-input-networkTimeout").typedInput({
+        type: "num",
+        types: ["num", "flow", "global", "env"],
+        typeField: "#node-input-networkTimeoutType"
+      });
     }
   });
 </script>
@@ -43,6 +50,11 @@
   <label for="node-input-updateInterval"><i class="fa fa-repeat"></i> Interval (sec)</label>
   <input type="text" id="node-input-updateInterval" placeholder="" min="0", step="5" />
   <input type="hidden" id="node-input-updateIntervalType">
+</div>
+<div class="form-row">
+  <label for="node-input-networkTimeout"><i class="fa fa-clock-o"></i> Timeout (ms)</label>
+  <input type="text" id="node-input-networkTimeout" placeholder="" min="0", step="5" />
+  <input type="hidden" id="node-input-networkTimeoutType">
 </div>
 <div class="form-row">
   <label for="node-input-config">Config</label>

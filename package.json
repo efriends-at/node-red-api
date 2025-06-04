@@ -1,6 +1,6 @@
 {
 	"name": "@efriends/node-red-api",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "A node-red API for efriends.at",
 	"main": "index.js",
 	"scripts": {
@@ -11,8 +11,8 @@
 		"watch-html": "npx copy-and-watch --watch src/nodes/*.html dist/nodes",
 		"build": "npm run clean && tsc && tsc-alias && npm run copy:resources",
 		"copy:resources": "(cd src; find ./nodes -name '*.html' -o -name '*.svg' -o -name '*.png' | cpio -pdm ../dist) && cp package.json dist/ && cp README.md dist/",
-		"launch": "node --env-file=.env --expose-gc --inspect=0.0.0.0:19229 node_modules/node-red/red.js --userDir ./data",
-		"debug": "concurrently -k \"npm run watch\" && \"node --env-file=.env --expose-gc --inspect=0.0.0.0:19229 node_modules/node-red/red.js --userDir ./data \"",
+		"launch": "node --env-file=.env --expose-gc --inspect=0.0.0.0:19230 node_modules/node-red/red.js --userDir ./data",
+		"debug": "concurrently -k \"npm run watch\" && \"node --env-file=.env --expose-gc --inspect=0.0.0.0:19230 node_modules/node-red/red.js --userDir ./data \"",
 		"deploy": "npm run build && (cd dist; npm publish --access public)",
 		"eslint:check": "eslint . --ext .ts",
 		"eslint:check:errors-only": "eslint . --ext .ts --quiet",
@@ -35,7 +35,7 @@
 		"energy-sharing"
 	],
 	"author": "Matthias Fuchs",
-	"license": "ISC",
+	"license": "Apache-2.0",
 	"dependencies": {
 		"node-red-ts": "^1.0.12"
 	},
