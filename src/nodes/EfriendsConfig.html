@@ -9,6 +9,8 @@
       apiKeyType: { value: "", required: true },
       host: { value: "", required: true },
       hostType: { value: "", required: true },
+      ssl: { value: true, required: true },
+      sslType: { value: "", required: true },
     },
     inputs: 0,
     outputs: 0,
@@ -27,6 +29,11 @@
         types: ["str", "flow", "global", "env"],
         typeField: "#node-config-input-hostType"
       });
+      $("#node-config-input-ssl").typedInput({
+        type: "bool",
+        types: ["bool", "flow", "global", "env"],
+        typeField: "#node-config-input-sslType"
+      });
     }
   });
 </script>
@@ -41,6 +48,11 @@
     <label for="node-config-input-host"><i class="fa fa-hash"></i> Host</label>
     <input type="text" id="node-config-input-host" placeholder="" placeholder="a000000000000000000000000000000e.balena-devices.com" />
     <input type="hidden" id="node-config-input-hostType">
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-ssl"><i class="fa fa-hash"></i> Host</label>
+    <input type="text" id="node-config-input-ssl" placeholder="" />
+    <input type="hidden" id="node-config-input-sslType">
   </div>
   <!-- <div class="form-tips">
     <span data-i18n="node-red:file.tip">Tip: <a href="https://app.efriends.at/experts">Get the the hostname</a></span>

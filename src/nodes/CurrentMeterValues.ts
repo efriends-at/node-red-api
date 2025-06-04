@@ -9,7 +9,9 @@ export class CurrentMeterValues extends AbstractEfriendsNode<GetCurrentMeterValu
 	}
 
 	protected get apiUrl(): string {
-		return `https://${this.host}/v3/MeterDataAPI/getCurrentValue`;
+
+
+		return `${this.httpProtocol}://${this.host}/v3/MeterDataAPI/getCurrentValue`;
 	}
 
 	protected get topic(): string {

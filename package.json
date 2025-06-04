@@ -1,6 +1,6 @@
 {
 	"name": "@efriends/node-red-api",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "A node-red API for efriends.at",
 	"main": "index.js",
 	"scripts": {
@@ -26,6 +26,7 @@
 		"nodes": {
 			"TradingSummary": "nodes/TradingSummary.js",
 			"CurrentMeterValues": "nodes/CurrentMeterValues.js",
+			"FloatPrices": "nodes/FloatPrices.js",
 			"EfriendsConfig": "nodes/EfriendsConfig.js"
 		}
 	},

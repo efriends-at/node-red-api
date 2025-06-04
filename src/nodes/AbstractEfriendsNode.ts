@@ -63,15 +63,31 @@ export abstract class AbstractEfriendsNode<T> extends AbstractNode<NodeMessage, 
 		return (config.context().get("host") as string) ?? '';
 	}
 
+	protected get httpProtocol(): string {
+		return this.useSsl
+				? "https"
+				: "http";
+	}
+
 	protected get networkTimeout(): number {
 		const config = this.configuration;
 
 		return (config.context().get("networkTimeout") as number) ?? 5000;
 	}
 
+	protected get useSsl(): boolean {
+		const config = this.configuration;
+
+		return (config.context().get("ssl") as boolean) ?? false;
+	}
+
+	protected get apiKeyHeaderField(): string {
+		return "apiKey";
+	}
+
 	protected async fetchUpdate(): Promise<T | HttpErrorData | undefined> {
 		const headers = new Headers();
-		headers.append('apiKey', this.apiKey);
+		headers.append(this.apiKeyHeaderField, this.apiKey);
 
 		const timeout = AbortSignal.timeout(this.networkTimeout);
 
@@ -95,7 +111,6 @@ export abstract class AbstractEfriendsNode<T> extends AbstractNode<NodeMessage, 
 				: String(error);
 
 			return { message: errorMessage } as HttpErrorData;
-			// throw new Error('Could not fetch data: ' + (error instanceof Error ? error.message : String(error)));
 		}
 	}
 }
