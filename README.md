@@ -6,7 +6,7 @@ Currently the supported functionality includes:
 * Gathering energy trading statistics
 * Gathering grid meter values
 
-![eFriends nodes screenshot](images/nodes-screenshot.png)
+![eFriends nodes screenshot](https://github.com/efriends-at/node-red-api/blob/main/images/nodes-screenshot.png?raw=true)
 
 ## Trading summary
 
