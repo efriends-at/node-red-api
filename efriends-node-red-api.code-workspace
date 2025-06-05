@@ -1,0 +1,14 @@
+{
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "../../Privat/node-red/node-red-ts"
+        },
+        {
+            "path": "../../Privat/node-red/node-red-ts-template"
+        },
+    ],
+    "settings": {}
+}
