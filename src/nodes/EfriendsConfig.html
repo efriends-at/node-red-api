@@ -50,13 +50,16 @@
     <input type="hidden" id="node-config-input-hostType">
   </div>
   <div class="form-row">
-    <label for="node-config-input-ssl"><i class="fa fa-hash"></i> Host</label>
+    <label for="node-config-input-ssl"><i class="fa fa-hash"></i> Use SSL?</label>
     <input type="text" id="node-config-input-ssl" placeholder="" />
     <input type="hidden" id="node-config-input-sslType">
   </div>
-  <!-- <div class="form-tips">
-    <span data-i18n="node-red:file.tip">Tip: <a href="https://app.efriends.at/experts">Get the the hostname</a></span>
-  </div> -->
+
+  <div class="form-row">
+    <div class="form-tips">
+      <span>Tip: SSL needs to be disabled if a local IP/host is used, and enabled in case of the public URL.</a></span>
+    </div>
+  </div>
 
   <div class="form-row">
     <label for="node-config-input-apiKey"><i class="fa fa-hash"></i> API key</label>
