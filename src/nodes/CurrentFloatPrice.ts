@@ -1,9 +1,9 @@
-import { GetTradingSummaryResponse } from '@app/dtos/TradingSummaryData';
+import { FloatPriceData } from '@app/dtos/FloatPriceData';
 import { AbstractEfriendsNode } from '@app/nodes/AbstractEfriendsNode';
 import { NodeAPI } from 'node-red';
 import { AbstractNode } from 'node-red-ts/api/AbstractNode';
 
-export class FloatPrices extends AbstractEfriendsNode<GetTradingSummaryResponse> {
+export class CurrentFloatPrice extends AbstractEfriendsNode<FloatPriceData> {
 	public constructor(RED: NodeAPI) {
 		super(RED);
 	}
@@ -13,7 +13,7 @@ export class FloatPrices extends AbstractEfriendsNode<GetTradingSummaryResponse>
 	}
 
 	protected get topic(): string {
-		return 'efriends.prices.float';
+		return 'efriends.price.float';
 	}
 
 	protected override get apiKeyHeaderField(): string {
@@ -22,4 +22,4 @@ export class FloatPrices extends AbstractEfriendsNode<GetTradingSummaryResponse>
 
 }
 
-module.exports = (RED: NodeAPI) => AbstractNode.createNode(RED, FloatPrices);
+module.exports = (RED: NodeAPI) => AbstractNode.createNode(RED, CurrentFloatPrice);

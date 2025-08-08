@@ -28,7 +28,7 @@ export abstract class AbstractEfriendsNode<T> extends AbstractNode<NodeMessage, 
 	}
 
 	protected override async onInput(msg?: NodeMessage): Promise<Array<NodeMessage | null>> {
-		const data = await this.fetchUpdate();
+		const data = await this.fetchData();
 
 		return [{ payload: data, topic: this.topic }];
 	}
@@ -38,7 +38,7 @@ export abstract class AbstractEfriendsNode<T> extends AbstractNode<NodeMessage, 
 	}
 
 	private async sendUpdate(): Promise<void> {
-		const data = await this.fetchUpdate();
+		const data = await this.fetchData();
 
 		this.node.send({ payload: data });
 	}
@@ -85,7 +85,18 @@ export abstract class AbstractEfriendsNode<T> extends AbstractNode<NodeMessage, 
 		return "apiKey";
 	}
 
-	protected async fetchUpdate(): Promise<T | HttpErrorData | undefined> {
+	protected parseResponse(data?: unknown): T | undefined {
+		return data as T;
+	}
+
+	protected async fetchData(): Promise<T | HttpErrorData | undefined> {
+		const data = await this.fetch();
+		const parsedData = this.parseResponse(data);
+
+		return parsedData;
+	}
+
+	private async fetch(): Promise<unknown | HttpErrorData | undefined> {
 		const headers = new Headers();
 		headers.append(this.apiKeyHeaderField, this.apiKey);
 
@@ -99,11 +110,14 @@ export abstract class AbstractEfriendsNode<T> extends AbstractNode<NodeMessage, 
 
 		try {
 			const response = await fetch(this.apiUrl, requestOptions);
+			const data = await response.text();
 
-			if (response.ok) {
-				const body: T = await response.json();
+			if (response.ok && !!data) {
+				const body = JSON.parse(data);
 
 				return body;
+			} else {
+				this.log.debug(`Error during parsing of response: ${data}`);
 			}
 		} catch (error) {
 			const errorMessage = error instanceof Error

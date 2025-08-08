@@ -1,0 +1,75 @@
+<script type="text/javascript">
+  RED.nodes.registerType("CurrentFlexPrice", {
+    category: "efriends",
+    color: "#ffcd1c",
+    icon: "logo.png",
+    defaults: {
+      name: { value: "" },
+      updateInterval: { value: 0, required: true },
+      updateIntervalType: { value: "num", required: true },
+      networkTimeout: { value: 5000, required: true },
+      networkTimeoutType: { value: "num", required: true },
+      // notifyThreshold: { value: 0, required: true },
+      // notifyThresholdType: { value: "num", required: true },
+      config: { required: true, type: "EfriendsConfig" },
+    },
+    inputs: 1,
+    outputs: 1,
+    inputLabels: ["trigger"],
+    outputLabels: ["summary"],
+    label: function () {
+      return this.name || "Current flex price";
+    },
+    paletteLabel: "Current flex price",
+    oneditprepare: () => {
+      $("#node-input-updateInterval").typedInput({
+        type: "num",
+        types: ["num", "flow", "global", "env"],
+        typeField: "#node-input-updateIntervalType"
+      });
+      $("#node-input-networkTimeout").typedInput({
+        type: "num",
+        types: ["num", "flow", "global", "env"],
+        typeField: "#node-input-networkTimeoutType"
+      });
+      // $("#node-input-notifyThreshold").typedInput({
+      //   type: "num",
+      //   types: ["num", "flow", "global", "env"],
+      //   typeField: "#node-input-notifyThresholdType"
+      // });
+    }
+  });
+</script>
+
+<!-- edit dialog -->
+<script type="text/html" data-template-name="CurrentFlexPrice">
+<!-- name -->
+<div class="form-row">
+  <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+  <input type="text" id="node-input-name" placeholder="Name" />
+</div>
+<div class="form-row">
+  <label for="node-input-updateInterval"><i class="fa fa-repeat"></i> Interval (sec)</label>
+  <input type="text" id="node-input-updateInterval" placeholder="" min="0" , step="5" />
+  <input type="hidden" id="node-input-updateIntervalType">
+</div>
+<div class="form-row">
+  <label for="node-input-networkTimeout"><i class="fa fa-clock-o"></i> Timeout (ms)</label>
+  <input type="text" id="node-input-networkTimeout" placeholder="" min="0" , step="5" />
+  <input type="hidden" id="node-input-networkTimeoutType">
+</div>
+<!-- <div class="form-row">
+  <label for="node-input-notifyThreshold"><i class="fa fa-clock-o"></i> Notify threshold (ct)</label>
+  <input type="text" id="node-input-notifyThreshold" placeholder="" min="0" , step="5" />
+  <input type="hidden" id="node-input-notifyThresholdType">
+</div> -->
+<div class="form-row">
+  <label for="node-input-config">Config</label>
+  <input type="text" id="node-input-config">
+</div>
+</script>
+
+<!-- help text -->
+<script type="text/html" data-help-name="CurrentFlexPrice">
+  <p>Get the currently active flex price for the given flex tarif.</p>
+</script>

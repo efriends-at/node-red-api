@@ -1,6 +1,6 @@
 <!-- definition  -->
 <script type="text/javascript">
-  RED.nodes.registerType("FloatPrices", {
+  RED.nodes.registerType("CurrentFloatPrice", {
     category: "efriends",
     color: "#ffcd1c",
     icon: "logo.png",
@@ -21,9 +21,9 @@
       "float prices",
     ],
     label: function () {
-      return this.name || "Get float prices"
+      return this.name || "Current float prices"
     },
-    paletteLabel: "Float prices",
+    paletteLabel: "Current float prices",
     oneditprepare: () => {
       $("#node-input-updateInterval").typedInput({
         type: "num",
@@ -40,7 +40,7 @@
 </script>
 
 <!-- edit dialog -->
-<script type="text/html" data-template-name="FloatPrices">
+<script type="text/html" data-template-name="CurrentFloatPrice">
   <!-- name -->
 <div class="form-row">
   <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
@@ -65,7 +65,7 @@
 
 <!-- help text -->
 <script type="text/html" data-help-name="TradingSummary">
-  <p><strong>eFriends Float prices</strong></p>
+  <p><strong>Current float price</strong></p>
   <p>This node fetches current and next float price using their HTTP API.</p>
   <p>See: <a href="https://support.efriends.at/hc/de/articles/26324144118301-Schnittstelle-Float-Preise">Support page</a></p>
 
